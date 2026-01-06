@@ -1,0 +1,298 @@
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@font-face {
+	font-family: 'Material Symbols Outlined';
+	font-style: normal;
+	font-weight: 400;
+	src: url(../font/material-icons.woff2) format('woff2');
+}
+
+html::after {
+	content: "";
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	background-image: url(../img/logo.svg);
+	background-repeat: repeat;
+	background-size: 100px;
+	filter: grayscale(100%) opacity(0.1);
+}
+
+.material-symbols-outlined {
+	font-family: 'Material Symbols Outlined';
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px;
+	line-height: 1;
+	letter-spacing: normal;
+	text-transform: none;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	-webkit-font-feature-settings: 'liga';
+	-webkit-font-smoothing: antialiased;
+}
+
+.jetbrains-mono,
+body,
+.uk-heading-xlarge,
+.uk-heading-large,
+.uk-heading-medium .uk-heading-small,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.uk-modal-title {
+	font-family: "JetBrains Mono", monospace !important;
+	font-optical-sizing: auto !important;
+	font-weight: 400 !important;
+	font-style: normal !important;
+}
+
+.uk-background-primary {
+	background-color: var(--bg-background) !important;
+}
+
+.poppins-regular,
+p,
+p.uk-text-lead {
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+p {
+	font-size: 0.9rem;
+}
+
+.uk-notification {
+	text-align: center;
+}
+
+:root {
+	--bg-primary: #0a8f3c;
+	--bg-secondary: #53d986;
+	--bg-background: #e8f9ef;
+	--bg-border-primary: 0, 0%;
+}
+
+body {
+	background-color: var(--bg-background);
+}
+
+strong {
+	color: var(--bg-primary);
+}
+
+.stat-mega-wrapper {
+	position: relative;
+	z-index: 2;
+}
+
+.material-symbols-outlined {
+	color: var(--bg-primary);
+	font-size: 2rem;
+}
+
+button.uk-button-primary {
+	background-color: var(--bg-primary);
+}
+
+button.uk-button-primary:hover {
+	background-color: #045724;
+}
+
+.uk-accordion li {
+	border: 1px solid hsl(var(--bg-border-primary), 85%);
+	border-radius: 10px;
+	transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+	overflow: hidden;
+}
+
+.uk-accordion .uk-accordion-title,
+.uk-accordion .uk-accordion-content {
+	padding: 20px 0;
+}
+
+.uk-accordion .uk-accordion-title {
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.uk-accordion .uk-accordion-title::before {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle fill='none' stroke='%23000' stroke-width='1.1' cx='9.5' cy='9.5' r='9'%3E%3C/circle%3E%3Cline fill='none' stroke='%23000' x1='9.5' y1='5' x2='9.5' y2='14'%3E%3C/line%3E%3Cline fill='none' stroke='%23000' x1='5' y1='9.5' x2='14' y2='9.5'%3E%3C/line%3E%3C/svg%3E");
+	width: 35px;
+	height: 35px;
+	background-position: 0px;
+}
+
+.uk-accordion .uk-open .uk-accordion-title::before {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle fill='none' stroke='%23000' stroke-width='1.1' cx='9.5' cy='9.5' r='9'%3E%3C/circle%3E%3Cline fill='none' stroke='%23000' x1='5' y1='9.5' x2='14' y2='9.5'%3E%3C/line%3E%3C/svg%3E");
+}
+
+.uk-accordion .uk-accordion-content {
+	margin: 0;
+	padding-top: 0;
+}
+
+.volante {
+	background: #ffffff;
+	margin: auto;
+	padding: 40px 15px;
+}
+
+.volante-header {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.volante-header h2 {
+	color: var(--bg-primary);
+	margin-bottom: 5px;
+}
+
+.numeros-grid {
+	gap: 8px;
+}
+
+.premio-manual {
+	margin-top: 5px;
+}
+
+.numero-item {
+	width: 40px;
+	height: 40px;
+	border: 1px solid #999;
+	border-radius: 50%;
+	text-align: center;
+	/* padding: 8px 0; */
+	font-size: 14px;
+	cursor: pointer;
+	background: #fafafa;
+	transition: 0.2s;
+	user-select: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.numero-item input {
+	display: none;
+}
+
+.numero-item:hover {
+	background: #e6f4ea;
+}
+
+.numero-item.selecionado {
+	background: var(--bg-primary);
+	color: #fff;
+	border-color: var(--bg-primary);
+	font-weight: bold;
+}
+
+.acoes {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.acoes button {
+	font-size: 16px;
+	padding: 10px 30px;
+}
+
+/* Modal */
+.resultado-box {
+	background: #f7fdf9;
+	border: 1px solid var(--bg-primary);
+	padding: 10px;
+	border-radius: 4px;
+}
+
+.bola {
+	display: inline-block;
+	background: var(--bg-primary);
+	color: #fff;
+	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	margin: 3px;
+	font-weight: bold;
+}
+
+.bola.acerto,
+#numeros-sorteados .bola {
+	background: #ffcc00;
+	color: #000;
+	border: 2px solid #c9a400;
+}
+
+.numero-bloqueado {
+	opacity: 0.3;
+	pointer-events: none;
+	background: #eee;
+}
+
+.correct-r {
+	padding-right: 15px;
+}
+
+[uk-filter] .uk-subnav-pill li {
+	margin: 0;
+	padding: 0;
+}
+
+[uk-filter] .uk-subnav-pill li a {
+	padding: 10px;
+	background-color: var(--bg-background);
+}
+
+[uk-filter] .uk-subnav-pill li.uk-active a {
+	background-color: var(--bg-primary);
+}
+
+[uk-filter] .uk-subnav-pill li:not(.uk-active):hover a {
+	background-color: #cae5d5;
+}
+
+[uk-filter] .uk-subnav-pill li.uk-active a .material-symbols-outlined {
+	color: #fff;
+}
+
+#numeros-tabela table th, table#uk-table-estatisticas th {
+	position: sticky;
+	top: 0;
+	background: #fff;
+	z-index: 10;
+}
+
+h4.uk-heading-small.heading-price {
+	font-size: clamp(1rem, 8 * 1vw, 10rem) !important;
+}
+
+h4.uk-heading-small.heading-price .heading-price-symbol {
+	font-size: 1rem;
+}
+
+@media screen and (min-width: 960px) {
+	h4.uk-heading-small.heading-price {
+		font-size: clamp(1rem, 4 * 1vw, 10rem) !important;
+	}
+}
+
+@media screen and (min-width: 500px) {
+	.volante {
+		padding: 40px 30px;
+	}
+}
