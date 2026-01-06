@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/animate.min.css">
+        <!-- <link rel="stylesheet" href="css/materialize.css"> -->
+        <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+        <link rel="stylesheet" href="css/uikit.min.css">
+        <script src="js/jquery-3.7.1.min.js"></script>
+        <script src="js/jquery.mask.min.js"></script>
+        <!-- <script src="js/materialize.js"></script> -->
+        <script src="js/uikit-icons.min.js"></script>
+        <script src="js/uikit.min.js"></script>
+        <script src="js/script.js"></script>
+        <title>STAT MEGA | Simulador — Mega-Sena</title>
+    </head>
+    <body>
+        <section class="uk-section stat-mega-wrapper">
+            <div class="uk-container uk-container-small">
+                <div class="uk-text-center">
+                    <img src="img/logo.svg" width="400" alt="">
+                    <p class="uk-margin-medium-top">
+                        Stat Mega é uma ferramenta interativa que permite ao usuário vivenciar, de forma realista, a
+                        experiência de um jogo da Mega-Sena. Nele, o jogador escolhe 6 números (podendo aumentar
+                        para mais) entre 1 e 60, realiza o sorteio e recebe imediatamente o resultado com as
+                        configurações desejadas.
+                    </p>
+                </div>
+                <div class="uk-margin-medium-top uk-background-primary" uk-filter="target: .js-filter">
+                    <ul class="uk-subnav uk-subnav-pill uk-child-width-1-3@s uk-margin-remove">
+                        <li class="uk-active" uk-filter-control=".filter-volante"><a href="#" class=" uk-padding"><span class="material-symbols-outlined">casino</span>Volante</a></li>
+                        <li uk-filter-control=".filter-tutorial"><a href="#" class=" uk-padding"><span class="material-symbols-outlined">school</span>Tutorial</a></li>
+                        <li uk-filter-control=".filter-instrucoes"><a href="#" class=" uk-padding"><span class="material-symbols-outlined">rule</span>Instruções</a></li>
+                    </ul>
+                    <ul class="js-filter uk-text-center uk-child-width-1-1" uk-grid>
+                        <li class="filter-volante">
+                            <div class="volante uk-box-shadow-xlarge">
+                                <div class="volante-header">
+                                    <h2 class="uk-heading-small">Volante</h2>
+                                    <p>Marque <strong id="texto-qtd-numeros">6 números</strong> principais</p>
+                                </div>
+                                <div id="numeros" class="numeros-grid uk-flex uk-flex-wrap uk-flex-middle uk-flex-center uk-margin-auto uk-width-3-5@s">
+                                </div>
+                                <ul class="uk-accordion-default uk-margin-medium-top" uk-accordion>
+                                    <li>
+                                        <a class="uk-accordion-title" href>Opções do volante</a>
+                                        <div class="uk-accordion-content">
+                                            <div class="acoes uk-flex uk-flex-wrap uk-text-left">
+                                                <div class="uk-width-1-2@s uk-padding-small">
+                                                    <label class="uk-form-label" for="qtd-apostas">
+                                                        Quantidade de apostas:
+                                                    </label>
+                                                    <input type="number" id="qtd-apostas" class="uk-input uk-text-center" style="margin-top: 5px;" min="1" value="0">
+                                                </div>
+                                                <div class="uk-width-1-2@s uk-padding-small">
+                                                    <label class="uk-form-label" for="qtd-numeros">
+                                                        Quantidade de números da aposta
+                                                    </label>
+                                                    <input type="number" id="qtd-numeros" class="uk-input uk-text-center" style="margin-top: 5px;" min="6" max="20" value="6">
+                                                </div>
+                                                <div class="uk-width-1-2@s uk-child-width-1-2@s uk-flex uk-flex-wrap">
+                                                    <div class="uk-padding-small">
+                                                        <label class="uk-form-label">
+                                                            Número mínimo:
+                                                            <input type="number" id="min-numeros" class="uk-input" min="1" max="60" value="1">
+                                                        </label>
+                                                    </div>
+                                                    <div class="uk-padding-small">
+                                                        <label class="uk-form-label">
+                                                            Número máximo:
+                                                            <input type="number" id="max-numeros" class="uk-input" min="1" max="60" value="60">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="uk-width-1-2@s uk-child-width-1-2@s uk-flex uk-flex-wrap">
+                                                    <div class="uk-width-1-2@s uk-padding-small">
+                                                        <input type="checkbox" id="usar-qtd-numeros" class="uk-checkbox">
+                                                        <label class="uk-form-label" for="usar-qtd-numeros">
+                                                            Números iguais para todas as apostas
+                                                        </label>
+                                                    </div>
+                                                    <div>
+                                                        <div class="uk-padding-small">
+                                                            <label>
+                                                                <input type="checkbox" id="usar-premio-manual" class="uk-checkbox">
+                                                                Definir números do prêmio manualmente
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="uk-padding-small" id="campo-premio-manual" style="display:none;">
+                                                    <label class="uk-form-label">Números do prêmio</label>
+                                                    <div id="inputs-premio-manual" class="uk-child-width-auto"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="uk-fleex uk-flex-wrap uk-flex-middle uk-flex-between">
+                                    <div class="uk-padding-small">
+                                        <div id="precoAposta" class="uk-width-1-1"></div>
+                                    </div>
+                                    <div class="uk-width-1-1@s uk-margin-medium-top">
+                                        <button id="sortear" type="button" class="uk-button uk-button-large uk-button-primary uk-width-1-1">Sortear Jogo</button>
+                                        <button id="analisar" type="button" class="uk-button uk-button-large uk-button-default uk-margin-small-top uk-width-1-1">Estatísticas</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="filter-tutorial">
+                            <div class="uk-section-default uk-padding-large">
+                                <h2 class="uk-heading-small">Tutorial</h2>
+                                <div class="uk-text-left">
+                                    <h3>1 - Escolha os números no volante</h3>
+                                    <p>
+                                        No volante principal, você deve selecionar os números da sua aposta:
+                                    </p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Marque no mínimo 6 números (quantidade padrão da Mega-Sena).</li>
+                                        <li>É possível marcar até 20 números, aumentando o número de combinações simuladas.
+                                        </li>
+                                    </ul>
+                                    <h3>2 - Defina a quantidade de apostas</h3>
+                                    <p>No campo <strong>Quantidade de apostas</strong>, informe:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Quantos jogos você deseja gerar.</li>
+                                        <li>Cada aposta será criada com base nas regras que você configurou.</li>
+                                    </ul>
+                                    <p>Ideal para simular múltiplos cenários de jogo.</p>
+                                    <h3> 3 - Configure a quantidade de números por aposta</h3>
+                                    <p>No campo <strong>Quantidade de números da aposta</strong>, você pode:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Manter o padrão (6 números).</li>
+                                        <li>Escolher uma quantidade maior, conforme permitido pela Mega-Sena.</li>
+                                    </ul>
+                                    <p>Se desejar que todas as apostas usem a mesma quantidade de números, ative a opção:
+                                        <strong>Números iguais para todas as apostas</strong>.
+                                    </p>
+                                    <h3>4 - Ajuste o limite máximo dos números</h3>
+                                    <p>Use o <strong>controle deslizante</strong> para definir:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>O limite máximo de números disponíveis.</li>
+                                        <li>O padrão é 60, conforme a Mega-Sena oficial.</li>
+                                    </ul>
+                                    <p>Essa opção é útil para testes estatísticos e simulações personalizadas.</p>
+                                    <h3>5 - Defina os números do prêmio</h3>
+                                    <p>Você pode deixar o sistema sortear automaticamente os números do prêmio ou definir
+                                        manualmente:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Marque a opção: <strong>Definir números do prêmio manualmente</strong>.</li>
+                                        <li>Insira os números desejados.</li>
+                                    </ul>
+                                    <p>Essa função é ideal para:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Reproduzir sorteios reais.</li>
+                                        <li>Testar estratégias.</li>
+                                        <li>Analisar resultados passados.</li>
+                                    </ul>
+                                    <h3>6 - Verifique o valor da aposta</h3>
+                                    <p>O sistema calcula automaticamente:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>O valor de cada aposta.</li>
+                                        <li>O custo total com base na quantidade de números escolhidos.</li>
+                                    </ul>
+                                    <p>Os valores seguem a tabela oficial da Mega-Sena.</p>
+                                    <h3>7 - Sorteie o jogo</h3>
+                                    <p>Quando tudo estiver configurado, clique em: <strong>Sortear Jogo</strong>.</p>
+                                    <p>O sistema irá:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Gerar os jogos.</li>
+                                        <li>Sortear os números do prêmio.</li>
+                                        <li>Comparar os resultados.</li>
+                                        <li>Exibir os acertos (Quadra, Quina ou Sena, quando houver).</li>
+                                    </ul>
+                                    <h3>8 - Analise os resultados</h3>
+                                    <p>
+                                        Após o sorteio, o modal de estatísticas reúne todas as informações
+                                        necessárias para entender melhor o desempenho das suas apostas.
+                                    </p>
+                                    <p>No modal, você poderá:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>
+                                            Ver automaticamente quantos números cada aposta acertou
+                                            e identificar se houve quadra (4 acertos), quina (5 acertos)
+                                            ou sena (6 acertos), sem precisar conferir manualmente.
+                                        </li>
+                                        <li>
+                                            Visualizar o comportamento dos números escolhidos, como
+                                            pares e ímpares, números mais repetidos, números únicos,
+                                            sequências e a distribuição geral dos números.
+                                        </li>
+                                        <li>
+                                            Comparar diferentes estratégias de aposta, como utilizar
+                                            mais números em um único jogo, dividir os números em várias
+                                            apostas ou variar os números escolhidos.
+                                        </li>
+                                        <li>
+                                            Entender a cobertura do sorteio, observando quantos números
+                                            do resultado final estavam presentes no conjunto total das
+                                            apostas realizadas.
+                                        </li>
+                                        <li>
+                                            Repetir a simulação quantas vezes quiser, gerando novos
+                                            sorteios e analisando como os resultados se comportam
+                                            em diferentes cenários.
+                                        </li>
+                                    </ul>
+                                    <h3>Aviso importante</h3>
+                                    <p>
+                                        O simulador é uma ferramenta de análise e aprendizado, não garante ganhos reais. Use
+                                        com responsabilidade e como apoio para estudo e curiosidade.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="filter-instrucoes">
+                            <div class="uk-section-default uk-padding-large">
+                                <h2 class="uk-heading-small">Instruções</h2>
+                                <div class="uk-text-left">
+                                    <h3>Entendendo a Mega-Sena</h3>
+                                    <p>
+                                        A Mega-Sena é a principal loteria do Brasil. O objetivo do jogo é acertar os números
+                                        sorteados dentre um
+                                        conjunto de números possíveis, conforme as regras oficiais.
+                                    </p>
+                                    <p>
+                                        Nesta seção, você vai entender como o jogo funciona, o que significam os prêmios e
+                                        como as apostas são estruturadas.
+                                    </p>
+                                    <h3>Como funciona o sorteio</h3>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Em cada concurso, são sorteados 6 números.</li>
+                                        <li>Os números vão de 1 a 60.</li>
+                                        <li>O jogador escolhe entre 6 e 20 números em uma aposta.</li>
+                                    </ul>
+                                    <p>Quanto mais números escolhidos, maior a chance de acerto, porém maior o custo da
+                                        aposta.</p>
+                                    <h3>Tipos de premiação</h3>
+                                    <p>A Mega-Sena possui três faixas principais de prêmio:</p>
+                                    <h4>6 - Sena</h4>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Acertar os 6 números sorteados.</li>
+                                        <li>É o prêmio principal.</li>
+                                        <li>Pode pagar valores milionários.</li>
+                                    </ul>
+                                    <h4>5 - Quina</h4>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Acertar 5 dos 6 números.</li>
+                                        <li>Prêmio menor que a Sena, mas ainda significativo.</li>
+                                    </ul>
+                                    <h4>4 - Quadra</h4>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Acertar 4 dos 6 números.</li>
+                                        <li>Prêmio mais comum e de menor valor.</li>
+                                    </ul>
+                                    <p>A quantidade de ganhadores influencia diretamente o valor pago a cada um. Se for
+                                        acertados 1, 2 ou 3 números não tem prêmio.</p>
+                                    <h3>O que é acumulação</h3>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Quando ninguém acerta a Sena, o prêmio acumula.</li>
+                                        <li>O valor é somado ao próximo concurso.</li>
+                                        <li>Em concursos especiais, como a Mega da Virada (ocorre apenas uma vez por ano), o
+                                            prêmio não acumula.</li>
+                                    </ul>
+                                    <h3>Quantos números é recomendado escolher?</h3>
+                                    <p>Do ponto de vista matemático:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>6 números → chance de 1 em 50.063.860. Menor custo e menor probabilidade de
+                                            acerto.</li>
+                                        <li>7 números → chance de 1 em 7.151.980. Aproximadamente 7 vezes mais chance que a
+                                            aposta simples.</li>
+                                        <li>8 números → chance de 1 em 1.787.995. Cerca de 28 vezes mais chance que 6
+                                            números.</li>
+                                        <li>9 números → chance de 1 em 595.998. Aproximadamente 84 vezes mais chance —
+                                            considerado um equilíbrio entre custo e probabilidade.</li>
+                                        <li>
+                                            10 números ou mais → chance a partir de 1 em 238.399. Probabilidade maior, porém
+                                            com custo elevado.
+                                        </li>
+                                    </ul>
+                                    <p>Não existe quantidade “ideal”: trata-se sempre de probabilidade, não de estratégia
+                                        garantida.</p>
+                                    <h3>Existe estratégia para escolher números?</h3>
+                                    <p>É importante entender um ponto fundamental: Todos os números têm exatamente a mesma
+                                        chance de serem sorteados.</p>
+                                    <p>Mesmo assim, jogadores costumam usar critérios como:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Números aleatórios.</li>
+                                        <li>Datas importantes.</li>
+                                        <li>Combinações pares e ímpares.</li>
+                                        <li>Números mais ou menos frequentes.</li>
+                                    </ul>
+                                    <p>Nenhuma dessas estratégias aumenta matematicamente a chance de ganhar.</p>
+                                    <h3>Números “quentes” e “frios”</h3>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Números quentes: saíram com mais frequência.</li>
+                                        <li>Números frios: saíram menos vezes.</li>
+                                    </ul>
+                                    <p>Embora sejam interessantes para análise estatística, não influenciam o próximo
+                                        sorteio, pois cada concurso é independente.</p>
+                                    <h3>Mega-Sena é sorte, não previsão</h3>
+                                    <p>A Mega-Sena é baseada em:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Probabilidade.</li>
+                                        <li>Aleatoriedade.</li>
+                                        <li>Sorte.</li>
+                                    </ul>
+                                    <p>Nenhuma ferramenta, sistema ou padrão pode prever o resultado de um sorteio real.</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <footer class="uk-width-2-5@s uk-margin-auto uk-margin-large-top uk-text-center uk-text-small uk-text-muted uk-margin-top">
+                <p>
+                    Esta ferramenta é apenas para fins educacionais e de simulação.
+                    Os resultados apresentados não garantem ganhos reais e não devem
+                    ser interpretados como previsão ou recomendação de aposta.
+                </p>
+                <p>
+                    Desenvolvida por Leandro. Licenciada sob os termos da licença MIT.
+                </p>
+                <p>
+                    Não nos responsabilizamos por quaisquer perdas, ganhos ou decisões
+                    tomadas com base nas informações geradas por esta ferramenta.
+                </p>
+            </footer>
+        </section>
+        <div id="resultado-modal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body uk-width-3-5@s">
+                <h3 class="uk-modal-title">Resultado do Sorteio</h3>
+                <p class="uk-margin-small-bottom"><strong>Seus números:</strong></p>
+                <div id="meus-numeros"></div>
+                <p class="uk-margin-small-bottom"><strong>Números sorteados:</strong></p>
+                <div id="numeros-sorteados" class="uk-margin-small"></div>
+                <div uk-overflow-auto>
+                    <div id="numeros-tabela"></div>
+                </div>
+                <button class="uk-button uk-button-large uk-button-primary uk-margin-medium-top uk-width-1-1 uk-modal-close">Fechar</button>
+            </div>
+        </div>
+        <div id="estatisticas-modal" uk-modal>
+            <div class="uk-modal-dialog uk-modal-large uk-modal-body uk-width-3-5@s">
+                <h2 class="uk-modal-title">Estatísticas das apostas</h2>
+                <div uk-overflow-auto>
+                    <div id="estatisticas-conteudo"></div>
+                </div>
+                <button class="uk-button uk-button-large uk-button-primary uk-margin-medium-top uk-width-1-1 uk-modal-close">Fechar</button>
+            </div>
+        </div>
+    </body>
+</html>
