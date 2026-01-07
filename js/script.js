@@ -15,6 +15,236 @@ $(function () {
         19: 162792.00, 20: 232560.00
     };
 
+        // Função para limpar todas seleções
+    function desmarcarSelecoes() {
+        if ($('.numero:checked').length) {
+            resetarNumerosSelecionados();
+        }
+        
+        else {
+            UIkit.notification({
+                message: 'Não há números selecionados.',
+                status: 'warning'
+            });
+        }
+    }
+
+    // Função para selecionar números automaticamente (padrão)
+    function escolherAutomatico() {
+        let qtd = parseInt($('#qtd-numeros').val()) || 6;
+        let numeros = sortearNumeros(qtd);
+
+        $('.numero').prop('checked', false).closest('.numero-item').removeClass('selecionado');
+
+        numeros.forEach(n => {
+            $(`.numero[value="${n}"]`).prop('checked', true)
+                .closest('.numero-item').addClass('selecionado');
+        });
+
+        UIkit.notification({ message: `Selecionados ${qtd} números automaticamente.`, status: 'success' });
+    }
+
+// Seleção de números pares (novo a cada clique)
+function escolherPares() {
+    let qtd = parseInt($('#qtd-numeros').val()) || 6;
+    let limites = obterLimites();
+    let pares = [];
+    for (let i = limites.min; i <= limites.max; i++) {
+        if (i % 2 === 0) pares.push(i);
+    }
+
+    if (pares.length < qtd) {
+        UIkit.notification({ message: 'Não há números pares suficientes disponíveis.', status: 'warning' });
+        return;
+    }
+
+    // Embaralhar e pegar qtd
+    pares = pares.sort(() => 0.5 - Math.random()).slice(0, qtd);
+
+    // Atualizar seleção
+    $('.numero').prop('checked', false).closest('.numero-item').removeClass('selecionado');
+    pares.forEach(n => $(`.numero[value="${n}"]`).prop('checked', true).closest('.numero-item').addClass('selecionado'));
+}
+
+// Seleção de números ímpares
+function escolherImpares() {
+    let qtd = parseInt($('#qtd-numeros').val()) || 6;
+    let limites = obterLimites();
+    let impares = [];
+    for (let i = limites.min; i <= limites.max; i++) {
+        if (i % 2 !== 0) impares.push(i);
+    }
+
+    if (impares.length < qtd) {
+        UIkit.notification({ message: 'Não há números ímpares suficientes disponíveis.', status: 'warning' });
+        return;
+    }
+
+    // Embaralhar e pegar qtd
+    impares = impares.sort(() => 0.5 - Math.random()).slice(0, qtd);
+
+    // Atualizar seleção
+    $('.numero').prop('checked', false).closest('.numero-item').removeClass('selecionado');
+    impares.forEach(n => $(`.numero[value="${n}"]`).prop('checked', true).closest('.numero-item').addClass('selecionado'));
+}
+
+// Seleção de números próximos entre si
+function escolherProximos() {
+    let qtd = parseInt($('#qtd-numeros').val()) || 6;
+    let limites = obterLimites();
+    let intervalo = [];
+    for (let i = limites.min; i <= limites.max; i++) intervalo.push(i);
+
+    let selecionados = [];
+
+    // Escolhe o primeiro número aleatório
+    selecionados.push(intervalo.splice(Math.floor(Math.random() * intervalo.length), 1)[0]);
+
+    while (selecionados.length < qtd && intervalo.length) {
+        // Gera candidatos com diferença de 1 a 3 de algum número já selecionado
+        let candidatos = intervalo.filter(n => 
+            selecionados.some(s => Math.abs(n - s) >= 1 && Math.abs(n - s) <= 3)
+        );
+
+        // Se não houver candidatos, relaxa para qualquer número restante
+        if (!candidatos.length) candidatos = intervalo.slice();
+
+        // Escolhe aleatoriamente
+        let escolhido = candidatos[Math.floor(Math.random() * candidatos.length)];
+
+        // Adiciona e remove do intervalo
+        selecionados.push(escolhido);
+        intervalo = intervalo.filter(n => n !== escolhido);
+    }
+
+    // Atualizar seleção na UI
+    $('.numero').prop('checked', false).closest('.numero-item').removeClass('selecionado');
+    selecionados.forEach(n => $(`.numero[value="${n}"]`).prop('checked', true).closest('.numero-item').addClass('selecionado'));
+}
+
+
+function escolherDistantes() {
+    let qtd = parseInt($('#qtd-numeros').val()) || 6;
+    let limites = obterLimites();
+    let intervalo = [];
+    for (let i = limites.min; i <= limites.max; i++) intervalo.push(i);
+
+    let selecionados = [];
+
+    // Escolhe o primeiro número aleatório
+    selecionados.push(intervalo.splice(Math.floor(Math.random() * intervalo.length), 1)[0]);
+
+    while (selecionados.length < qtd && intervalo.length) {
+        // Gera candidatos com diferença de 4 a 6 de todos os números já selecionados
+        let candidatos = intervalo.filter(n => 
+            selecionados.every(s => Math.abs(n - s) >= 4 && Math.abs(n - s) <= 6)
+        );
+
+        // Se não houver candidatos, relaxa para qualquer número restante
+        if (!candidatos.length) candidatos = intervalo.slice();
+
+        // Escolhe aleatoriamente
+        let escolhido = candidatos[Math.floor(Math.random() * candidatos.length)];
+
+        // Adiciona e remove do intervalo
+        selecionados.push(escolhido);
+        intervalo = intervalo.filter(n => n !== escolhido);
+    }
+
+    // Atualizar seleção na UI
+    $('.numero').prop('checked', false).closest('.numero-item').removeClass('selecionado');
+    selecionados.forEach(n => $(`.numero[value="${n}"]`).prop('checked', true).closest('.numero-item').addClass('selecionado'));
+}
+
+
+$('#redefinir-button').on('click', function () {
+    UIkit.modal('#modal-redefinir').show();
+});
+
+$('#confirmar-redefinir').on('click', function () {
+
+    /* 1. Apagar TODOS os dados salvos */
+    localStorage.clear();
+
+    /* 2. Redefinir campos de formulário */
+    $('#qtd-apostas').val(0);
+    $('#qtd-numeros').val(6);
+
+    $('#min').val('');
+    $('#max').val('');
+
+    /* 3. Desmarcar checkboxes */
+    $('input[type="checkbox"]').prop('checked', false);
+
+    /* 4. Apagar seleções de números (bolas marcadas) */
+    $('.bola, .numero, .selecionado, .ativo').removeClass('selecionado ativo');
+
+    /* 5. Limpar áreas de resultado */
+    $('#numeros-sorteados').html('');
+    $('#resultado-analise').html('');
+
+    /* 6. Resetar valores exibidos */
+    $('#precoAposta').find('p').each(function () {
+        if ($(this).text().includes('R$')) {
+            $(this).text('R$00,00');
+        }
+    });
+
+    /* 7. Fechar modal */
+    UIkit.modal('#modal-redefinir').hide();
+});
+
+
+
+    // ==============================
+    // Click no dropdown
+    // ==============================
+    $('[uk-dropdown] .uk-nav a').on('click', function (e) {
+        e.preventDefault();
+
+        let acao = $(this).data('action');
+        // let texto = $(this).text();
+
+        // Atualiza o botão
+        // $('#selecao-button').text(texto);
+
+        // Remove highlight do item ativo
+        $('[uk-dropdown] .uk-nav li').removeClass('uk-active');
+        $(this).closest('li').addClass('uk-active');
+
+        // Executa ação
+        switch (acao) {
+            case 'manual':
+                resetarNumerosSelecionados();
+                break;
+            case 'desmarcar':
+                desmarcarSelecoes();
+                break;
+            case 'auto':
+                escolherAutomatico();
+                break;
+            case 'pares':
+                escolherPares();
+                break;
+            case 'impares':
+                escolherImpares();
+                break;
+            case 'proximos':
+                escolherProximos();
+                break;
+            case 'distantes':
+                escolherDistantes();
+                break;
+        }
+
+        // Atualiza preço e quantidade
+        atualizarTextoQuantidade();
+        atualizarPrecoAposta();
+
+        // Fecha o dropdown após selecionar a opção
+        UIkit.dropdown($(this).closest('[uk-dropdown]')).hide();
+    });
+
     // ================================
     // ESTADO INICIAL
     // ================================
@@ -157,6 +387,73 @@ $(function () {
         });
     }
 
+function calcularGastos() {
+    const historico = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    let totalGastos = 0;
+
+historico.forEach(item => {
+    let qtdNums = item.apostaUsuario.length;
+    let precoUsuario = tabelaPrecosMegaSena[qtdNums] || 0;
+    totalGastos += precoUsuario;
+
+    item.apostasSimuladas.forEach(a => {
+        let precoSimulada = tabelaPrecosMegaSena[a.length] || 0;
+        totalGastos += precoSimulada;
+    });
+});
+
+    return totalGastos;
+}
+
+function calcularLucro(numerosPremio = []) {
+    if (!Array.isArray(numerosPremio) || numerosPremio.length === 0) {
+        return Number(localStorage.getItem('megaSenaLucroTotal')) || 0;
+    }
+
+    const historico = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    if (!historico.length) return 0;
+
+    const LUCRO_KEY = 'megaSenaLucroTotal';
+    const PREMIO_KEY = 'megaSenaUltimoPremioProcessado';
+
+    // prêmio atual como string (para comparação)
+    const premioAtual = numerosPremio.slice().sort((a, b) => a - b).join('-');
+    const premioProcessado = localStorage.getItem(PREMIO_KEY);
+
+    // 👉 se já foi processado, NÃO recalcula
+    if (premioAtual === premioProcessado) {
+        return Number(localStorage.getItem(LUCRO_KEY)) || 0;
+    }
+
+    // 👉 calcula SOMENTE o último registro
+    const ultimo = historico[historico.length - 1];
+    let lucroSorteio = 0;
+
+    // aposta do usuário
+    let acertosUser = ultimo.apostaUsuario.filter(n => numerosPremio.includes(n)).length;
+    if (acertosUser === 6) lucroSorteio += 3000000;
+    else if (acertosUser === 5) lucroSorteio += 50000;
+    else if (acertosUser === 4) lucroSorteio += 1000;
+
+    // apostas simuladas
+    ultimo.apostasSimuladas.forEach(aposta => {
+        let acertos = aposta.filter(n => numerosPremio.includes(n)).length;
+        if (acertos === 6) lucroSorteio += 3000000;
+        else if (acertos === 5) lucroSorteio += 50000;
+        else if (acertos === 4) lucroSorteio += 1000;
+    });
+
+    // 👉 acumula lucro
+    let lucroTotal = Number(localStorage.getItem(LUCRO_KEY)) || 0;
+    lucroTotal += lucroSorteio;
+
+    // salva estado
+    localStorage.setItem(LUCRO_KEY, lucroTotal);
+    localStorage.setItem(PREMIO_KEY, premioAtual);
+
+    return lucroTotal;
+}
+
 
 
     // ================================
@@ -180,31 +477,39 @@ $(function () {
         let totalSimuladas = precoSimulada * qtdApostas;
         let total = precoUsuario + totalSimuladas;
 
-        $('#precoAposta').html(`
-            <div class="uk-flex uk-flex-wrap uk-text-left">
-                <div class="uk-width-1-2@m">
-                    <h3 class="uk-heading-xsmall uk-margin-small-top uk-margin-remove-bottom">
-                        Aposta principal:
-                    </h3>
-                    <p class="uk-margin-small-top">R$ ${precoUsuario.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (<strong>${qtdNumeros} números</strong>)</p>
+let gastos = calcularGastos();
+let lucro = calcularLucro(ultimoSorteio);
 
-                    <h3 class="uk-heading-xsmall uk-margin-small-top uk-margin-remove-bottom">
-                        Apostas simuladas:
-                    </h3>
-                    <p class="uk-margin-small-top">R$ ${totalSimuladas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (<strong>${qtdApostas} × 6 números</strong>)</p>
-                </div>
-                <hr class="uk-width-1-1 uk-hidden@m">
-                <div class="uk-width-1-2@m uk-flex uk-flex-right@m uk-margin-top">
-                    <div>
-                        <h3 class="uk-heading-xsmall uk-margin-remove-bottom">Total:</h3>
-                        <h4 class="uk-heading-small heading-price uk-margin-remove">
-                            <span class="heading-price-symbol">R$</span>
-                            ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                        </h4>
-                    </div>
-                </div>
-            </div>
-        `);
+$('#precoAposta').html(`
+    <div class="uk-flex uk-flex-wrap uk-text-left">
+        <div class="uk-width-1-2@m uk-padding-small uk-padding-block">
+            <h3 class="uk-heading-xsmall uk-margin-small-top uk-margin-remove-bottom">
+                Aposta principal:
+            </h3>
+            <p class="uk-margin-small-top">R$ ${precoUsuario.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (<strong>${qtdNumeros} números</strong>)</p>
+            <h3 class="uk-heading-xsmall uk-margin-small-top uk-margin-remove-bottom">
+                Apostas simuladas:
+            </h3>
+            <p class="uk-margin-small-top">R$ ${totalSimuladas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (<strong>${qtdApostas} × 6 números</strong>)</p>
+        </div>
+        <hr class="uk-width-1-1 uk-hidden@m">
+        <div class="uk-width-1-2@m uk-padding-small uk-padding-block">
+            <h3 class="uk-heading-xsmall uk-margin-small-top uk-margin-remove-bottom">
+                Total das apostas:
+            </h3>
+            <p class="uk-margin-small-top">R$${(precoUsuario + totalSimuladas).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+            <h3 class="uk-heading-xsmall uk-margin-small-top uk-margin-remove-bottom">
+                Gastos com apostas:
+            </h3>
+            <p class="uk-margin-small-top">R$${gastos.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+            <h3 class="uk-heading-xsmall uk-margin-small-top uk-margin-remove-bottom">
+                Lucro com apostas:
+            </h3>
+            <p class="uk-margin-small-top">R$${lucro.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+        </div>
+    </div>
+`);
+
     }
 
 
@@ -716,13 +1021,21 @@ return `
         }
 
         let premio = obterNumerosPremio();
+        let apostas = gerarApostas(qtdApostas, usarQtd ? qtdNumeros : 6);
+
         if (!premio) return;
 
-        ultimoSorteio = premio;
-        localStorage.setItem('megaSenaUltimoPremio', JSON.stringify(premio));
+ultimoSorteio = premio;
+localStorage.setItem('megaSenaUltimoPremio', JSON.stringify(premio));
+
+// Salvar histórico primeiro
+salvarHistorico(escolhidos, apostas);
+
+// Agora atualiza preço, gastos e lucro
+atualizarPrecoAposta();
 
         let tabela = `
-        <table class="uk-table uk-table-divider uk-table-small">
+        <table class="uk-table uk-table-divider">
             <thead>
                 <tr>
                     <th>Tipo</th>
@@ -751,8 +1064,6 @@ return `
                 <td>${resultado(acertosUser)}</td>
             </tr>
         `;
-
-        let apostas = gerarApostas(qtdApostas, usarQtd ? qtdNumeros : 6);
 
         apostas.forEach((a, i) => {
             let acertos = a.filter(n => premio.includes(n)).length;
@@ -784,7 +1095,7 @@ return `
 
         UIkit.modal('#resultado-modal').show();
 
-        salvarHistorico(escolhidos, apostas);
+        
     });
 
     aplicarBloqueioMinMax();
