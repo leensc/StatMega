@@ -5,14 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Simulador da Mega-Sena com análise estatística das apostas. Compare estratégias, visualize acertos e explore resultados de forma educativa.">
         <link rel="stylesheet" href="css/style.css">
-        <!-- <link rel="stylesheet" href="css/animate.min.css"> -->
-        <!-- <link rel="stylesheet" href="css/materialize.css"> -->
+        <link rel="stylesheet" href="css/animate.min.css">
         <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
         <link rel="stylesheet" href="css/uikit.min.css">
         <script src="js/jquery-3.7.1.min.js"></script>
-        <!-- <script src="js/jquery.mask.min.js"></script> -->
-        <!-- <script src="js/materialize.js"></script> -->
-        <!-- <script src="js/uikit-icons.min.js"></script> -->
         <script src="js/uikit.min.js"></script>
         <script src="js/script.js"></script>
         <title>STAT MEGA | Simulador — Mega-Sena</title>
@@ -22,6 +18,7 @@
             <div class="uk-container uk-container-small">
                 <div class="uk-text-center">
                     <img src="img/logo.svg" width="400" alt="">
+                    <p class="uk-text-small"><strong>Versão 2.0</strong></p>
                     <p class="uk-margin-medium-top">
                         Stat Mega é uma ferramenta interativa que permite ao usuário vivenciar, de forma realista, a
                         experiência de um jogo da Mega-Sena. Nele, o jogador escolhe 6 números (podendo aumentar
@@ -30,24 +27,39 @@
                     </p>
                 </div>
                 <div class="uk-margin-medium-top uk-background-primary" uk-filter="target: .js-filter">
-                    <ul class="uk-subnav uk-subnav-pill uk-child-width-1-3@s uk-margin-remove">
-                        <li class="uk-active" uk-filter-control=".filter-volante"><a href="#" class=" uk-padding"><span class="material-symbols-outlined">casino</span>Volante</a></li>
-                        <li uk-filter-control=".filter-tutorial"><a href="#" class=" uk-padding"><span class="material-symbols-outlined">school</span>Tutorial</a></li>
-                        <li uk-filter-control=".filter-instrucoes"><a href="#" class=" uk-padding"><span class="material-symbols-outlined">rule</span>Instruções</a></li>
+                    <ul class="uk-subnav uk-subnav-pill uk-child-width-1-4@s uk-margin-remove">
+                        <li class="uk-active" uk-filter-control=".filter-volante"><a href="#" class="uk-padding"><span class="material-symbols-outlined">casino</span>Volante</a></li>
+                        <li uk-filter-control=".filter-tutorial"><a href="#" class="uk-padding"><span class="material-symbols-outlined">school</span>Tutorial</a></li>
+                        <li uk-filter-control=".filter-instrucoes"><a href="#" class="uk-padding"><span class="material-symbols-outlined">rule</span>Instruções</a></li>
+                        <li uk-filter-control=".filter-sobre"><a href="#" class="uk-padding"><span class="material-symbols-outlined">info</span>Sobre</a></li>
                     </ul>
                     <ul class="js-filter uk-text-center uk-child-width-1-1" uk-grid>
                         <li class="filter-volante">
                             <div class="volante uk-box-shadow-xlarge">
                                 <div class="volante-header">
                                     <h2 class="uk-heading-small">Volante</h2>
-                                    <p>Marque <strong id="texto-qtd-numeros">6 números</strong> principais</p>
+                                    <p class="uk-margin-remove">Marque <strong id="texto-qtd-numeros">6 números</strong> principais</p>
                                 </div>
-                                <div id="numeros" class="numeros-grid uk-flex uk-flex-wrap uk-flex-middle uk-flex-center uk-margin-auto uk-width-3-5@s">
+                                <div class="uk-width-3-5@s uk-margin-auto uk-margin-medium-bottom uk-margin-medium-top uk-position-relative">
+                                    <button id="redefinir-button" class="uk-button uk-button-primary uk-flex uk-flex-middle uk-flex-center uk-margin-auto uk-width-1-1" type="button"><span class="material-symbols-outlined uk-margin-small-right">restart_alt</span> Redefinir tudo</button>
+                                    <button id="selecao-button" class="uk-button uk-button-default uk-flex uk-flex-middle uk-flex-center uk-margin-auto uk-margin-small-top uk-width-1-1" type="button"><span class="material-symbols-outlined uk-margin-small-right">tune</span> Modo de Seleções</button>
+                                    <div uk-dropdown="mode: click; pos: bottom-left" class="uk-width-1-1">
+                                        <ul class="uk-nav uk-dropdown-nav">
+                                            <li><a href="#" data-action="desmarcar"><span class="material-symbols-outlined uk-margin-small-right">clear_all</span> Desmarcar seleções</a></li>
+                                            <li><a href="#" data-action="auto"><span class="material-symbols-outlined uk-margin-small-right">casino</span> Escolha (auto)</a></li>
+                                            <li><a href="#" data-action="pares"><span class="material-symbols-outlined uk-margin-small-right">filter_2</span> Escolha (auto) pares</a></li>
+                                            <li><a href="#" data-action="impares"><span class="material-symbols-outlined uk-margin-small-right">filter_1</span> Escolha (auto) ímpares</a></li>
+                                            <li><a href="#" data-action="proximos"><span class="material-symbols-outlined uk-margin-small-right">linear_scale</span> Escolha (auto) próximos</a></li>
+                                            <li><a href="#" data-action="distantes"><span class="material-symbols-outlined uk-margin-small-right">scatter_plot</span> Escolha (auto) distantes</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
+                                <div id="numeros" class="numeros-grid uk-flex uk-flex-wrap uk-flex-middle uk-flex-center uk-margin-auto uk-width-3-5@s"></div>
                                 <ul class="uk-accordion-default uk-margin-medium-top" uk-accordion>
                                     <li>
                                         <a class="uk-accordion-title" href>Opções do volante</a>
                                         <div class="uk-accordion-content">
+                                            <hr>
                                             <div class="acoes uk-flex uk-flex-wrap uk-text-left">
                                                 <div class="uk-width-1-2@s uk-padding-small">
                                                     <label class="uk-form-label" for="qtd-apostas">
@@ -84,8 +96,8 @@
                                                     </div>
                                                     <div>
                                                         <div class="uk-padding-small">
-                                                            <label>
-                                                                <input type="checkbox" id="usar-premio-manual" class="uk-checkbox">
+                                                            <input type="checkbox" id="usar-premio-manual" class="uk-checkbox">
+                                                            <label class="uk-form-label" for="usar-premio-manual">
                                                                 Definir números do prêmio manualmente
                                                             </label>
                                                         </div>
@@ -100,12 +112,12 @@
                                     </li>
                                 </ul>
                                 <div class="uk-fleex uk-flex-wrap uk-flex-middle uk-flex-between">
-                                    <div class="uk-padding-small">
+                                    <div class="uk-padding-small uk-padding-block">
                                         <div id="precoAposta" class="uk-width-1-1"></div>
                                     </div>
                                     <div class="uk-width-1-1@s uk-margin-medium-top">
-                                        <button id="sortear" type="button" class="uk-button uk-button-large uk-button-primary uk-width-1-1">Sortear Jogo</button>
-                                        <button id="analisar" type="button" class="uk-button uk-button-large uk-button-default uk-margin-small-top uk-width-1-1">Estatísticas</button>
+                                        <button id="sortear" type="button" class="uk-button uk-button-large uk-button-primary uk-width-1-1 uk-flex uk-flex-middle uk-flex-center"><span class="material-symbols-outlined uk-margin-small-right">shuffle</span> Sortear Jogo</button>
+                                        <button id="analisar" type="button" class="uk-button uk-button-large uk-button-default uk-margin-small-top uk-width-1-1 uk-flex uk-flex-middle uk-flex-center"><span class="material-symbols-outlined uk-margin-small-right">bar_chart</span> Estatísticas</button>
                                     </div>
                                 </div>
                             </div>
@@ -114,6 +126,73 @@
                             <div class="uk-section-default uk-padding-large">
                                 <h2 class="uk-heading-small">Tutorial</h2>
                                 <div class="uk-text-left">
+                                    <h3>Introdução aos botões</h3>
+                                    <table class="uk-table uk-table-divider">
+                                        <thead>
+                                            <tr>
+                                                <th>Função</th>
+                                                <th>Botão / Modo</th>
+                                                <th>O que faz</th>
+                                                <th>Como usar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Sorteio</td>
+                                                <td>Sortear Jogo</td>
+                                                <td>Executa o sorteio dos números da Mega-Sena e compara com sua aposta e as apostas simuladas.</td>
+                                                <td>Selecione a quantidade de números, escolha os números (manual ou automático) e clique em Sortear Jogo para ver os resultados.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Análise</td>
+                                                <td>Estatísticas</td>
+                                                <td>Exibe uma análise detalhada do último sorteio realizado.</td>
+                                                <td>Após realizar um sorteio, clique em Estatísticas para visualizar dados como frequência, pares/ímpares, sequências e acertos.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Reset</td>
+                                                <td>Redefinir Tudo</td>
+                                                <td>Apaga todos os dados salvos e retorna o simulador ao estado inicial.</td>
+                                                <td>Use quando quiser começar uma nova simulação do zero. Esta ação não pode ser desfeita.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Manual</td>
+                                                <td>Seleção Manual</td>
+                                                <td>Permite escolher os números clicando diretamente nas dezenas.</td>
+                                                <td>Marque manualmente os números desejados no volante.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Aleatório</td>
+                                                <td>Seleção Automática</td>
+                                                <td>Seleciona números aleatórios automaticamente.</td>
+                                                <td>Escolha a quantidade de números e clique na opção Automático.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pares</td>
+                                                <td>Números Pares</td>
+                                                <td>Seleciona apenas números pares dentro do intervalo permitido.</td>
+                                                <td>Ideal para testar estratégias baseadas em paridade.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ímpares</td>
+                                                <td>Números Ímpares</td>
+                                                <td>Seleciona apenas números ímpares automaticamente.</td>
+                                                <td>Útil para comparar com estratégias de números ímpares.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Próximos</td>
+                                                <td>Números Próximos</td>
+                                                <td>Seleciona números com valores próximos entre si.</td>
+                                                <td>Indicado para simular apostas concentradas em faixas próximas.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Distantes</td>
+                                                <td>Números Distantes</td>
+                                                <td>Seleciona números com maior espaçamento entre eles.</td>
+                                                <td>Ideal para testar apostas mais distribuídas no volante.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                     <h3>1 - Escolha os números no volante</h3>
                                     <p>
                                         No volante principal, você deve selecionar os números da sua aposta:
@@ -230,6 +309,7 @@
                                         Nesta seção, você vai entender como o jogo funciona, o que significam os prêmios e
                                         como as apostas são estruturadas.
                                     </p>
+                                    <hr class="uk-margin-medium-top uk-margin-bottom">
                                     <h3>Como funciona o sorteio</h3>
                                     <ul class="uk-list uk-list-disc">
                                         <li>Em cada concurso, são sorteados 6 números.</li>
@@ -238,26 +318,28 @@
                                     </ul>
                                     <p>Quanto mais números escolhidos, maior a chance de acerto, porém maior o custo da
                                         aposta.</p>
+                                    <hr class="uk-margin-medium-top uk-margin-bottom">
                                     <h3>Tipos de premiação</h3>
                                     <p>A Mega-Sena possui três faixas principais de prêmio:</p>
-                                    <h4>6 - Sena</h4>
+                                    <h4>6 (Sena)</h4>
                                     <ul class="uk-list uk-list-disc">
                                         <li>Acertar os 6 números sorteados.</li>
                                         <li>É o prêmio principal.</li>
                                         <li>Pode pagar valores milionários.</li>
                                     </ul>
-                                    <h4>5 - Quina</h4>
+                                    <h4>5 (Quina)</h4>
                                     <ul class="uk-list uk-list-disc">
                                         <li>Acertar 5 dos 6 números.</li>
                                         <li>Prêmio menor que a Sena, mas ainda significativo.</li>
                                     </ul>
-                                    <h4>4 - Quadra</h4>
+                                    <h4>4 (Quadra)</h4>
                                     <ul class="uk-list uk-list-disc">
                                         <li>Acertar 4 dos 6 números.</li>
                                         <li>Prêmio mais comum e de menor valor.</li>
                                     </ul>
                                     <p>A quantidade de ganhadores influencia diretamente o valor pago a cada um. Se for
                                         acertados 1, 2 ou 3 números não tem prêmio.</p>
+                                    <hr class="uk-margin-medium-top uk-margin-bottom">
                                     <h3>O que é acumulação</h3>
                                     <ul class="uk-list uk-list-disc">
                                         <li>Quando ninguém acerta a Sena, o prêmio acumula.</li>
@@ -265,6 +347,7 @@
                                         <li>Em concursos especiais, como a Mega da Virada (ocorre apenas uma vez por ano), o
                                             prêmio não acumula.</li>
                                     </ul>
+                                    <hr class="uk-margin-medium-top uk-margin-bottom">
                                     <h3>Quantos números é recomendado escolher?</h3>
                                     <p>Do ponto de vista matemático:</p>
                                     <ul class="uk-list uk-list-disc">
@@ -283,6 +366,7 @@
                                     </ul>
                                     <p>Não existe quantidade “ideal”: trata-se sempre de probabilidade, não de estratégia
                                         garantida.</p>
+                                    <hr class="uk-margin-medium-top uk-margin-bottom">
                                     <h3>Existe estratégia para escolher números?</h3>
                                     <p>É importante entender um ponto fundamental: Todos os números têm exatamente a mesma
                                         chance de serem sorteados.</p>
@@ -294,6 +378,7 @@
                                         <li>Números mais ou menos frequentes.</li>
                                     </ul>
                                     <p>Nenhuma dessas estratégias aumenta matematicamente a chance de ganhar.</p>
+                                    <hr class="uk-margin-medium-top uk-margin-bottom">
                                     <h3>Números “quentes” e “frios”</h3>
                                     <ul class="uk-list uk-list-disc">
                                         <li>Números quentes: saíram com mais frequência.</li>
@@ -301,6 +386,7 @@
                                     </ul>
                                     <p>Embora sejam interessantes para análise estatística, não influenciam o próximo
                                         sorteio, pois cada concurso é independente.</p>
+                                    <hr class="uk-margin-medium-top uk-margin-bottom">
                                     <h3>Mega-Sena é sorte, não previsão</h3>
                                     <p>A Mega-Sena é baseada em:</p>
                                     <ul class="uk-list uk-list-disc">
@@ -312,24 +398,110 @@
                                 </div>
                             </div>
                         </li>
+                        <li class="filter-sobre">
+                            <div class="uk-section-default uk-padding-large">
+                                <h2 class="uk-heading-small">Sobre</h2>
+                                <div class="uk-text-left">
+                                    <h3>O que é esta ferramenta?</h3>
+                                    <p>
+                                        Esta aplicação é um simulador educacional da Mega-Sena, criado com o objetivo de demonstrar, de forma
+                                        prática, como funcionam os sorteios, as probabilidades, as combinações numéricas e as estatísticas envolvidas no jogo.
+                                    </p>
+                                    <p>A ferramenta permite ao usuário:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Gerar sorteios simulados.</li>
+                                        <li>Criar apostas manuais ou automáticas.</li>
+                                        <li>Analisar estatísticas baseadas em resultados simulados.</li>
+                                        <li>Compreender melhor as chances reais de acerto.</li>
+                                    </ul>
+                                    <p>Todos os resultados são totalmente fictícios e gerados por algoritmos, não tendo qualquer relação com sorteios oficiais.</p>
+                                    <hr class="uk-margin-medium-top uk-margin-bottom">
+                                    <h3>Isenção de Responsabilidade</h3>
+                                    <p>
+                                        Não nos responsabilizamos por perdas financeiras, ganhos esperados, decisões pessoais ou comportamentos
+                                        adotados pelo usuário com base nas informações, simulações ou resultados fornecidos por esta ferramenta.
+                                    </p>
+                                    <p>
+                                        O uso desta aplicação é de inteira responsabilidade do usuário, que reconhece e concorda que:
+                                    </p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Resultados passados não indicam resultados futuros.</li>
+                                        <li>Estatísticas não alteram probabilidades reais.</li>
+                                        <li>Nenhuma funcionalidade garante vantagem em jogos reais.</li>
+                                    </ul>
+                                    <hr class="uk-margin-medium-top uk-margin-bottom">
+                                    <h3>Informações sobre o Desenvolvedor e Licença</h3>
+                                    <p>
+                                        Esta ferramenta foi desenvolvida por <a href="https://github.com/leensc" rel="noopener" target="_blank" class="link">Leandro do Nascimento (leensc)</a>,
+                                        com foco em aprendizado, experimentação e desenvolvimento técnico.
+                                    </p>
+                                    <p>O projeto é distribuído sob os termos da <a href="https://github.com/leensc/StatMega/blob/main/LICENSE" rel="noopener" target="_blank" class="link">Licença MIT</a>, o que permite:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Uso livre do software.</li>
+                                        <li>Modificação do código.</li>
+                                        <li>Distribuição e reutilização, inclusive para fins comerciais.</li>
+                                    </ul>
+                                    <p>Desde que seja mantido o aviso de direitos autorais e a licença original.</p>
+                                    <hr class="uk-margin-medium-top uk-margin-bottom">
+                                    <h3>Armazenamento de dados e funcionamento técnico</h3>
+                                    <p>Todos os dados gerados e utilizados por esta ferramenta — incluindo:</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Apostas realizadas.</li>
+                                        <li>Resultados simulados.</li>
+                                        <li>Estatísticas.</li>
+                                        <li>Histórico de sorteios</li>
+                                    </ul>
+                                    <p>São armazenados exclusivamente no computador do próprio usuário, utilizando tecnologias de armazenamento local do navegador.</p>
+                                    <ul class="uk-list uk-list-disc">
+                                        <li>Nenhuma informação é enviada para servidores externos.</li>
+                                        <li>Nenhum dado é compartilhado com terceiros.</li>
+                                        <li>Nenhum cadastro ou login é exigido.</li>
+                                    </ul>
+                                    <p>Ao limpar o cache do navegador ou utilizar outro dispositivo, os dados serão perdidos, pois não há sincronização online.</p>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
+                <footer class="uk-width-1-1@s uk-margin-auto uk-margin-large-top uk-text-center uk-text-small uk-text-muted uk-margin-top">
+                    <p>
+                        Esta ferramenta foi desenvolvida exclusivamente para fins educacionais, informativos e de simulação estatística. Seu
+                        objetivo é permitir que o usuário compreenda melhor o funcionamento da Mega-Sena, explore cenários hipotéticos e visualize
+                        resultados baseados em simulações matemáticas e probabilísticas. Os resultados apresentados não garantem ganhos reais,
+                        não aumentam chances de premiação e não devem, em hipótese alguma, ser interpretados como previsão, sugestão, aconselhamento
+                        financeiro ou recomendação de apostas. Todo sorteio realizado nesta plataforma é simulado, não possuindo qualquer vínculo
+                        com sorteios oficiais da Caixa Econômica Federal ou de qualquer outro órgão. A participação em jogos de azar envolve riscos
+                        financeiros, e as probabilidades reais de ganho permanecem extremamente baixas, independentemente de estratégias, padrões
+                        ou estatísticas exibidas.
+                    </p>
+                </footer>
             </div>
-            <footer class="uk-width-2-5@s uk-margin-auto uk-margin-large-top uk-text-center uk-text-small uk-text-muted uk-margin-top">
-                <p>
-                    Esta ferramenta é apenas para fins educacionais e de simulação.
-                    Os resultados apresentados não garantem ganhos reais e não devem
-                    ser interpretados como previsão ou recomendação de aposta.
-                </p>
-                <p>
-                    Desenvolvida por Leandro. Licenciada sob os termos da licença MIT.
-                </p>
-                <p>
-                    Não nos responsabilizamos por quaisquer perdas, ganhos ou decisões
-                    tomadas com base nas informações geradas por esta ferramenta.
-                </p>
-            </footer>
         </section>
+        <div id="modal-redefinir" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body uk-border-rounded">
+                <h3 class="uk-modal-title">Redefinir tudo?</h3>
+                <p>
+                    Esta ação irá apagar <strong>todos os dados salvos</strong>, incluindo:
+                </p>
+                <ul>
+                    <li>Gastos e lucros</li>
+                    <li>Apostas simuladas</li>
+                    <li>Seleções de números</li>
+                    <li>Configurações atuais</li>
+                </ul>
+                <p class="uk-text-danger uk-text-small">
+                    Essa ação não pode ser desfeita.
+                </p>
+                <div class="uk-flex uk-flex-right uk-margin-top">
+                    <button class="uk-button uk-button-default uk-modal-close">
+                        Cancelar
+                    </button>
+                    <button id="confirmar-redefinir" class="uk-button uk-button-primary uk-margin-left">
+                        Redefinir tudo
+                    </button>
+                </div>
+            </div>
+        </div>
         <div id="resultado-modal" uk-modal>
             <div class="uk-modal-dialog uk-modal-body uk-width-3-5@s">
                 <h3 class="uk-modal-title">Resultado do Sorteio</h3>
@@ -338,7 +510,7 @@
                 <p class="uk-margin-small-bottom"><strong>Números sorteados:</strong></p>
                 <div id="numeros-sorteados" class="uk-margin-small"></div>
                 <div uk-overflow-auto>
-                    <div id="numeros-tabela"></div>
+                    <div id="numeros-tabela" style="width: 600px;"></div>
                 </div>
                 <button class="uk-button uk-button-large uk-button-primary uk-margin-medium-top uk-width-1-1 uk-modal-close">Fechar</button>
             </div>
